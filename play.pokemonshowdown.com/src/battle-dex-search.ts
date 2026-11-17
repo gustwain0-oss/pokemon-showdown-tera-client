@@ -140,7 +140,7 @@ find(query: string) {
 
         // Only show allowed Pokemon when searching in Tera
         if (this.typedSearch?.searchType === 'pokemon' && this.typedSearch.format === 'tera') {
-            const allowed = new Set<ID>(['pikachu', 'eevee']);
+            const allowed = new Set<ID>(['pikachu', 'eevee', 'testmon']);
             this.results = this.results.filter(row =>
                 row[0] === 'pokemon' && allowed.has(row[1] as ID)
             );
@@ -908,7 +908,7 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			}
 		}
 
-const teraAllowed = new Set<ID>(['pikachu', 'eevee']);
+const teraAllowed = new Set<ID>(['pikachu', 'eevee', 'testmon']);
 
 if (this.searchType === 'pokemon' && this.format === 'tera') {
     results = results.filter(row => {
