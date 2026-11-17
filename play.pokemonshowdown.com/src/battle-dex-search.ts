@@ -1139,7 +1139,14 @@ class BattlePokemonSearch extends BattleTypedSearch<'pokemon'> {
 		return results;
 	}
 	getBaseResults(): SearchRow[] {
-		const format = this.format;
+		const format = this.format;	
+if (format === 'tera') {
+    return [
+        ['pokemon', 'pikachu' as ID],
+        ['pokemon', 'eevee' as ID],
+        ['pokemon', 'testmon' as ID],
+    ];
+}
 		if (!format) return this.getDefaultResults();
 		const isVGCOrBS = format.startsWith('battlespot') || format.startsWith('bss') ||
 			format.startsWith('battlestadium') || format.startsWith('vgc');
