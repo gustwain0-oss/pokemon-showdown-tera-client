@@ -286,18 +286,9 @@ function toId() {
 				return;
 			}
 
-			if (this.get('userid') !== userid) {
-				var self = this;
-				$.post(this.getActionPHP(), {
-					act: 'getassertion',
-					userid: userid,
-					challstr: this.challstr
-				}, function (data) {
-					self.finishRename(name, data);
-				});
-			} else {
-				app.send('/trn ' + name);
-			}
+
+app.send('/trn ' + name);
+
 		},
 		passwordRename: function (name, password, special) {
 			var self = this;
@@ -327,47 +318,15 @@ function toId() {
 			}), 'text');
 		},
 		challstr: '',
-		receiveChallstr: function (challstr) {
-			if (challstr) {
-				/**
-				 * Rename the user based on the `sid` and `showdown_username` cookies.
-				 * Specifically, if the user has a valid session, the user will be
-				 * renamed to the username associated with that session. If the user
-				 * does not have a valid session but does have a persistent username
-				 * (i.e. a `showdown_username` cookie), the user will be renamed to
-				 * that name; if that name is registered, the user will be required
-				 * to authenticate.
-				 *
-				 * See `finishRename` above for a list of events this can emit.
-				 */
-				this.challstr = challstr;
-				var self = this;
-				$.post(this.getActionPHP(), {
-					act: 'upkeep',
-					challstr: this.challstr
-				}, Storage.safeJSON(function (data) {
-					self.loaded = true;
-					if (!data.username) {
-						app.topbar.updateUserbar();
-						return;
-					}
 
-					// | , ; are not valid characters in names
-					data.username = data.username.replace(/[\|,;]+/g, '');
+receiveChallstr: function (challstr) {
+    if (challstr) {
+        this.challstr = challstr;
+        this.loaded = true;
+        app.topbar.updateUserbar();
+    }
+},
 
-					if (data.loggedin) {
-						self.set('registered', {
-							username: data.username,
-							userid: toUserid(data.username)
-						});
-					}
-					self.finishRename(data.username, data.assertion);
-				}), 'text');
-			}
-		},
-		/**
-		 * Log out from the server (but remain connected as a guest).
-		 */
 		logout: function () {
 			$.post(this.getActionPHP(), {
 				act: 'logout',
