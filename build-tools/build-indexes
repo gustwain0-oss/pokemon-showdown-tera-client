@@ -1386,6 +1386,7 @@ process.stdout.write("Building `data/pokedex.js`... ");
 
 {
 	const Pokedex = requireNoCache('../caches/pokemon-showdown/dist/data/pokedex.js').Pokedex;
+   Pokedex.testmon = { ...teraDex.data.Pokedex.testmon };
 	for (const id in Pokedex) {
 		const entry = Pokedex[id];
 		if (Dex.data.FormatsData[id]) {
