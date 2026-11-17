@@ -898,6 +898,22 @@ abstract class BattleTypedSearch<T extends SearchType> {
 			}
 		}
 
+const teraAllowed = new Set<ID>(['pikachu', 'eevee']);
+
+if (this.searchType === 'pokemon' && this.format === 'gen9tera') {
+    results = results.filter(row => {
+        if (row[0] !== 'pokemon') return false;
+        return teraAllowed.has(row[1] as ID);
+    });
+
+    if (illegalResults) {
+        illegalResults = illegalResults.filter(row => {
+            if (row[0] !== 'pokemon') return false;
+            return teraAllowed.has(row[1] as ID);
+        });
+    }
+}
+
 		if (this.sortRow) {
 			results = [this.sortRow, ...results];
 		}
