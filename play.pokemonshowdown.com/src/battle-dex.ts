@@ -932,6 +932,21 @@ export const Dex = new class implements ModdedDex {
 			pokemon = pokemon.getSpeciesForme() + (isGigantamax ? '-Gmax' : '');
 		}
 		const species = Dex.species.get(pokemon);
+		
+if (species.num <= -10001) {
+    return {
+        gen: mechanicsGen,
+        w: 96,
+        h: 96,
+        y: 0,
+        url: Dex.resourcePrefix + 'tera-sprites/' + species.id + '.png',
+        pixelated: true,
+        isFrontSprite: isFront,
+        cryurl: '',
+        shiny: options.shiny,
+    };
+}
+
 		// Gmax sprites are already extremely large, so we don't need to double.
 		if (species.name.endsWith('-Gmax')) isDynamax = false;
 		let spriteData = {
