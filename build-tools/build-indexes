@@ -979,6 +979,12 @@ process.stdout.write("Building `data/teambuilder-tables.js`... ");
 			if (gens.indexOf(9) >= 0 && learnset[moveid].some(x => x === '9E')) learnsets[id][moveid] += 'e';
 		}
 	}
+	
+learnsets.testmon = {};
+for (const moveid in teraDex.data.Learnsets.testmon.learnset) {
+    learnsets.testmon[moveid] = '9a';
+}
+
 	const G2Learnsets = Dex.mod('gen2').data.Learnsets;
 	for (const id in G2Learnsets) {
 		const learnset = G2Learnsets[id].learnset;
