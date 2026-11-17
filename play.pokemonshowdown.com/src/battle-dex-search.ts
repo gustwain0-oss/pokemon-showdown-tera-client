@@ -123,23 +123,33 @@ export class DexSearch {
 		return null;
 	}
 
-	find(query: string) {
-		query = toID(query);
-		if (this.query === query && this.results) {
-			return false;
-		}
-		this.query = query;
-		if (!query) {
-			this.results = this.typedSearch?.getResults(this.filters, this.sortCol, this.reverseSort) || [];
-			if (!this.filters && !this.sortCol && this.prependResults) {
-				this.results = [...this.prependResults, ...this.results];
-			}
-		} else {
-			this.results = this.textSearch(query);
-		}
-		this.selection = this.getFirstResultIndex();
-		return true;
-	}
+
+find(query: string) {
+    query = toID(query);
+    if (this.query === query && this.results) {
+        return false;
+    }
+    this.query = query;
+    if (!query) {
+        this.results = this.typedSearch?.getResults(this.filters, this.sortCol, this.reverseSort) || [];
+        if (!this.filters && !this.sortCol && this.prependResults) {
+            this.results = [...this.prependResults, ...this.results];
+        }
+    } else {
+        this.results = this.textSearch(query);
+
+        // Only show allowed Pokemon when searching in Tera
+        if (this.typedSearch?.searchType === 'pokemon' && this.typedSearch.format === 'tera') {
+            const allowed = new Set<ID>(['pikachu', 'eevee']);
+            this.results = this.results.filter(row =>
+                row[0] === 'pokemon' && allowed.has(row[1] as ID)
+            );
+        }
+    }
+    this.selection = this.getFirstResultIndex();
+    return true;
+}
+
 
 	getFirstResultIndex() {
 		if (!this.results) return 0;
