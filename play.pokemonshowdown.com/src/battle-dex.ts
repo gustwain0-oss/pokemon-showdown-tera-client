@@ -1158,6 +1158,17 @@ if (species.num <= -10001) {
 			// @ts-expect-error safe, but too lazy to cast
 			id = toID(pokemon.volatiles.formechange[1]);
 		}
+		
+		const species = Dex.species.get(id);
+		
+		if (species.num <= -10001) {
+		    const fainted = (pokemon as Pokemon | ServerPokemon)?.fainted
+		        ? ';opacity:.3;filter:grayscale(100%) brightness(.5)'
+		        : '';
+		
+		    return `background:transparent url(${Dex.resourcePrefix}tera-sprites/${id}.png) center center / contain no-repeat${fainted}`;
+		}
+
 		let num = this.getPokemonIconNum(id, pokemon?.gender === 'F', facingLeft);
 
 		let top = Math.floor(num / 12) * 30;
