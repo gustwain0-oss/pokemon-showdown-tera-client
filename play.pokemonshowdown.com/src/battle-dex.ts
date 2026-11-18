@@ -1169,8 +1169,7 @@ if (species.num <= -10001) {
 		    return `background:transparent url(${Dex.resourcePrefix}tera-sprites/${id}.png) center center / contain no-repeat${fainted}`;
 		}
 		
-		const species = Dex.species.get(id);
-		
+
 		if (species.num <= -10001) {
 		    const fainted = (pokemon as Pokemon | ServerPokemon)?.fainted
 		        ? ';opacity:.3;filter:grayscale(100%) brightness(.5)'
