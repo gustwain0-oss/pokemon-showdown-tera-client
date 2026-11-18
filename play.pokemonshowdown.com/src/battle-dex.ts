@@ -1263,13 +1263,26 @@ if (species.num <= -10001) {
 		return spriteData;
 	}
 
+
 	getTeambuilderSprite(pokemon: any, dex?: ModdedDex, xOffset = 0, yOffset = 0) {
-		if (!pokemon) return '';
-		const data = this.getTeambuilderSpriteData(pokemon, dex);
-		const shiny = (data.shiny ? '-shiny' : '');
-		const resize = (data.h ? `background-size:${data.h}px` : '');
-		return `background-image:url(${Dex.resourcePrefix}${data.spriteDir}${shiny}/${data.spriteid}.png);background-position:${data.x + xOffset}px ${data.y + yOffset}px;background-repeat:no-repeat;${resize}`;
+	    if (!pokemon) return '';
+	
+	    const id = toID(pokemon.species || pokemon);
+	    const teraSpecies = this.species.get(id);
+	
+	    if (teraSpecies.num <= -10001) {
+	        return `background-image:url(${Dex.resourcePrefix}tera-teambuilder/${id}.png);` +
+	            `background-position:${10 + xOffset}px ${5 + yOffset}px;` +
+	            `background-size:96px 96px;` +
+	            `background-repeat:no-repeat;`;
+	    }
+	
+	    const data = this.getTeambuilderSpriteData(pokemon, dex);
+	    const shiny = (data.shiny ? '-shiny' : '');
+	    const resize = (data.h ? `background-size:${data.h}px` : '');
+	    return `background-image:url(${Dex.resourcePrefix}${data.spriteDir}${shiny}/${data.spriteid}.png);background-position:${data.x + xOffset}px ${data.y + yOffset}px;background-repeat:no-repeat;${resize}`;
 	}
+
 
 	getItemIcon(item: any) {
 		let num = 0;
